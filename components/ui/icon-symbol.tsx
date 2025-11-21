@@ -24,6 +24,7 @@ const MAPPING: { [key: string]: { lib: string; name: string } } = {
   magnifyingglass: { lib: "MaterialIcons", name: "search" },
   xmark: { lib: "MaterialIcons", name: "close" },
   "chevron.right": { lib: "MaterialIcons", name: "chevron-right" },
+  book: { lib: "MaterialIcons", name: "book" },
 };
 
 /**
