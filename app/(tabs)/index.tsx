@@ -10,6 +10,7 @@ export default function HomeScreen() {
 
   const [decks, setDecks] = useState<Deck[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [scrollTrigger, setScrollTrigger] = useState(0);
 
   const addDeck = () => {
     setDecks((prev) => [
@@ -22,6 +23,8 @@ export default function HomeScreen() {
         colors: "White, Black",
       },
     ]);
+    // trigger carousel scroll only for additions
+    setScrollTrigger((s) => s + 1);
   };
 
   const deleteDeck = (deckToDelete: Deck) => {
@@ -103,7 +106,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      <Carousel autoScrollToEndTrigger={decks.length}>
+      <Carousel autoScrollToEndTrigger={scrollTrigger}>
         {decks.map((deck) => (
           <DeckCard
             key={deck.id}
