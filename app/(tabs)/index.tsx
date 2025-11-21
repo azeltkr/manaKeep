@@ -3,13 +3,13 @@ import { Deck, DeckCard } from "@/components/cards/DeckCard";
 import { Carousel } from "@/components/carousel/Carousel";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useRef, useState } from "react";
-import { Animated, Pressable, Text, View } from "react-native";
+import { Alert, Animated, Pressable, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
-  // Correctly typed deck list
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const addDeck = () => {
     setDecks((prev) => [
@@ -22,6 +22,28 @@ export default function HomeScreen() {
         colors: "White, Black",
       },
     ]);
+  };
+
+  const deleteDeck = (deckToDelete: Deck) => {
+    Alert.alert(
+      "Delete Deck",
+      `Are you sure you want to delete "${deckToDelete.name}"?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            setDeletingId(deckToDelete.id);
+
+            setTimeout(() => {
+              setDecks((prev) => prev.filter((d) => d.id !== deckToDelete.id));
+              setDeletingId(null);
+            }, 200);
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -37,7 +59,6 @@ export default function HomeScreen() {
         ManaKeep
       </Text>
 
-      {/* Header Row */}
       <View
         style={{
           flexDirection: "row",
@@ -77,27 +98,23 @@ export default function HomeScreen() {
             <Text style={{ fontSize: 16, fontWeight: "600", color: "#F5A623" }}>
               View All
             </Text>
-
-            {/* Restore arrow icon */}
             <IconSymbol name="chevron.right" size={18} color="#F5A623" />
           </Animated.View>
         </Pressable>
       </View>
 
-      {/* Deck Carousel */}
-      <Carousel>
+      <Carousel autoScrollToEndTrigger={decks.length}>
         {decks.map((deck) => (
           <DeckCard
             key={deck.id}
             deck={deck}
-            onPress={(clickedDeck) => {
-              console.log("Clicked deck:", clickedDeck);
-              // later: navigate to deck details
-            }}
+            isDeleting={deck.id === deletingId}
+            onPress={(clickedDeck) => console.log("Clicked:", clickedDeck)}
+            onDelete={deleteDeck}
           />
         ))}
 
-        <AddDeckCard onPress={addDeck} />
+        <AddDeckCard onPress={addDeck} pulseTrigger={decks.length} />
       </Carousel>
     </View>
   );
