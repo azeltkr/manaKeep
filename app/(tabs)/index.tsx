@@ -6,7 +6,7 @@ export default function HomeScreen() {
       style={{
         flex: 1,
         backgroundColor: "#202020", // clean dark grey
-        paddingTop: 60,
+        paddingTop: 80,
         paddingHorizontal: 20,
       }}
     >

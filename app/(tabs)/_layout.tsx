@@ -1,27 +1,29 @@
+// app/(tabs)/_layout.tsx
+
 import { Tabs } from "expo-router";
 import React from "react";
 
 import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
+// 🔶 Global accent for active tab icon + label
+const ACCENT_GOLD = "#F5A623";
+
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme(); // kept for future light/dark tweaks if needed
 
   return (
     <Tabs
-      sceneContainerStyle={{
-        backgroundColor: "transparent", // ⭐ Make tab scene see-through
-      }}
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#1A1A1A", // keep your current tab bar for now
-          borderTopColor: "#3A3A3A", // remove white line
-          position: "absolute", // ⭐ allows background behind tabs
+          backgroundColor: "#1A1A1A",
+          borderTopColor: "#3A3A3A",
+          position: "absolute",
         },
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: ACCENT_GOLD, // active icon + label
+        tabBarInactiveTintColor: "#888", // inactive icon + label
         tabBarButton: HapticTab,
       }}
     >
@@ -36,11 +38,11 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="explore"
+        name="collection"
         options={{
-          title: "Explore",
+          title: "Collection",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="folder.fill" color={color} />
           ),
         }}
       />
