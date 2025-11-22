@@ -40,7 +40,7 @@ export function Carousel({
   return (
     <View
       style={{
-        marginTop: 20,
+        marginTop: 8,
         height: 140,
       }}
     >

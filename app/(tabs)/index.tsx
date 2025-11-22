@@ -106,7 +106,37 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
+      {/* 🔁 Carousel stays exactly the same, we just inject a temp card when decks.length === 0 */}
       <Carousel autoScrollToEndTrigger={scrollTrigger}>
+        {/* 🟣 Empty-state helper card shown ONLY when there are no decks */}
+        {decks.length === 0 && (
+          <View
+            style={{
+              width: 220,
+              backgroundColor: "#181818",
+              borderRadius: 16,
+              paddingVertical: 14,
+              paddingHorizontal: 12,
+              marginRight: 12,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 16,
+                fontWeight: "600",
+                marginBottom: 4,
+              }}
+            >
+              You don’t have any decks yet.
+            </Text>
+            <Text style={{ color: "#A0A0A0", fontSize: 14 }}>
+              Tap the + button to add your first deck.
+            </Text>
+          </View>
+        )}
+
+        {/* 🟢 Real deck cards (same as before) */}
         {decks.map((deck) => (
           <DeckCard
             key={deck.id}
@@ -117,6 +147,7 @@ export default function HomeScreen() {
           />
         ))}
 
+        {/* ➕ Add deck card (unchanged) */}
         <AddDeckCard onPress={addDeck} pulseTrigger={decks.length} />
       </Carousel>
     </View>
