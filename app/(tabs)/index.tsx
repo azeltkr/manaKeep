@@ -2,6 +2,7 @@ import { AddDeckCard } from "@/components/cards/AddDeckCard";
 import { Deck, DeckCard } from "@/components/cards/DeckCard";
 import { Carousel } from "@/components/carousel/Carousel";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Alert, Animated, Pressable, Text, View } from "react-native";
 
@@ -49,6 +50,13 @@ export default function HomeScreen() {
     );
   };
 
+  // ⭐ Only show the 5 most recent decks in the carousel
+  const MAX_VISIBLE_DECKS = 5;
+  const visibleDecks =
+    decks.length > MAX_VISIBLE_DECKS
+      ? decks.slice(-MAX_VISIBLE_DECKS) // last 5
+      : decks;
+
   return (
     <View
       style={{
@@ -87,7 +95,10 @@ export default function HomeScreen() {
                 duration: 120,
                 useNativeDriver: true,
               }),
-            ]).start();
+            ]).start(() => {
+              // 👇 navigate after the little fade animation finishes
+              router.push("/decks");
+            });
           }}
         >
           <Animated.View
@@ -136,8 +147,8 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {/* 🟢 Real deck cards (same as before) */}
-        {decks.map((deck) => (
+        {/* 🟢 Real deck cards (now only the most recent 5) */}
+        {visibleDecks.map((deck) => (
           <DeckCard
             key={deck.id}
             deck={deck}
