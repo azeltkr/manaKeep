@@ -2,6 +2,7 @@ import { AddDeckCard } from "@/components/cards/AddDeckCard";
 import { Deck, DeckCard } from "@/components/cards/DeckCard";
 import { Carousel } from "@/components/carousel/Carousel";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { MaterialCommunityIcons } from "@expo/vector-icons"; // 👈 NEW
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Alert, Animated, Pressable, Text, View } from "react-native";
@@ -78,9 +79,23 @@ export default function HomeScreen() {
           marginTop: 30,
         }}
       >
-        <Text style={{ fontSize: 20, color: "#BBBBBB", fontWeight: "600" }}>
-          My Decks
-        </Text>
+        {/* LEFT: icon + label together */}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="cards-outline"
+            size={20}
+            color="#BBBBBB"
+          />
+          <Text style={{ fontSize: 20, color: "#BBBBBB", fontWeight: "600" }}>
+            My Decks
+          </Text>
+        </View>
 
         <Pressable
           onPress={() => {
